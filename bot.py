@@ -36,18 +36,37 @@ async def sync_slash_commands(ctx):
         print(f"Error syncing commands: {e}")  # Debug statement
 
 
-# Command to list registered commands
-@bot.command(name="commands")
-async def list_commands(ctx):
-    """Lists all registered commands."""
-    commands_list = [command.name for command in bot.commands]
-    await ctx.send("Registered commands: " + ", ".join(commands_list))
+@bot.tree.command(name="commands", description="Lists all the bot commands.")
+async def list_commands(interaction: discord.Interaction):
+    """Displays a list of available commands in an embed."""
+    commands_list = [f"`/{command.name}` - {command.description or 'No description'}" for command in bot.tree.get_commands()]
+
+    embed = discord.Embed(
+        title="📜 Available Commands",
+        description="Here’s what I can do for you!",
+        color=discord.Color.purple()
+    )
+
+    embed.add_field(name="Commands", value="\n".join(commands_list), inline=False)
+    await interaction.response.send_message(embed=embed)
 
 
 # Sync commands and confirm bot is ready
 @bot.event
 async def on_ready():
-    print(f"{bot.user} Yawnsss... I am awake!")
+    print(f"{bot.user} Yawnsss... I'm awake!")
+    try:
+        await bot.tree.sync()
+        print("Slash commands synced.")
+        # Debug: print all registered commands
+        for command in bot.tree.get_commands():
+            print(f"Synced command: {command.name}")
+    except Exception as e:
+        print(f"Error syncing slash commands: {e}")
+
+    print("My commands:")
+    for command in bot.tree.get_commands():
+        print(f"Registered command: {command.name}")
 
 
 # Run bot
