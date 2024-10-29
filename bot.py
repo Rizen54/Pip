@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+OWNER_ID = os.getenv("OWNER_ID")
 
 
 # Initialize bot with command prefix and intents
@@ -24,8 +25,11 @@ async def say_hi(interaction: discord.Interaction):
 
 # Command to manually sync slash commands
 @bot.command(name="sync")
-@commands.is_owner()  # Only the bot owner can use this command
-async def sync_slash_commands(ctx):
+async def sync(ctx):
+    if ctx.author.id != OWNER_ID:
+        await ctx.send("Nope. I only listen to my owner when it comes to serious business.")
+        return
+
     await ctx.send("Syncing slash commands...")  # Inform the user that sync is starting
     try:
         await bot.tree.sync()
@@ -63,10 +67,6 @@ async def on_ready():
             print(f"Synced command: {command.name}")
     except Exception as e:
         print(f"Error syncing slash commands: {e}")
-
-    print("My commands:")
-    for command in bot.tree.get_commands():
-        print(f"Registered command: {command.name}")
 
 
 # Run bot
