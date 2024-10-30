@@ -25,7 +25,7 @@ class Utilities(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="hi", description="The bot says hi!")
-    async def say_hi(interaction: discord.Interaction):
+    async def say_hi(self, interaction: discord.Interaction):
         await interaction.response.send_message("Hello!")
 
 
