@@ -19,7 +19,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 # Command to manually sync slash commands
 @bot.command(name="sync")
 async def sync(ctx):
-    if ctx.author.id != OWNER_ID:
+    if ctx.author.id != int(OWNER_ID):
         await ctx.send(
             "Nope. I only listen to my owner when it comes to serious business."
         )
