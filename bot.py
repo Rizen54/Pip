@@ -38,6 +38,16 @@ async def sync(ctx):
 # Sync commands and confirm bot is ready
 @bot.event
 async def on_ready():
+    print(
+r"""
+ ____  _  ____ 
+/  __\/ \/  __\
+|  \/|| ||  \/|
+|  __/| ||  __/
+\_/   \_/\_/   
+               
+"""
+    )
     print(f"{bot.user} Yawnsss... I'm awake!")
 
     for filename in os.listdir("cogs"):  # for every cog in the cogs folder
