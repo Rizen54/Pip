@@ -47,7 +47,7 @@ async def on_ready():
                 await bot.load_extension(f"cogs.{filename[:-3]}")
             except Exception:
                 pass  # Maybe do something here, not sure
-
+    """
     try:
         await bot.tree.sync()
         print("Slash commands synced.")
@@ -56,7 +56,7 @@ async def on_ready():
             print(f"Synced command: {command.name}")
     except Exception as e:
         print(f"Error syncing slash commands: {e}")
-
+    """
 
 # Run bot
 bot.run(TOKEN)
