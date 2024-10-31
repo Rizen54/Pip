@@ -55,8 +55,8 @@ r"""
             # ^^ If the cog ends in "y", checking if it's a python file
             try:
                 await bot.load_extension(f"cogs.{filename[:-3]}")
-            except Exception:
-                pass  # Maybe do something here, not sure
+            except Exception as e:
+                print(e)
     """
     try:
         await bot.tree.sync()

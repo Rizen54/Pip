@@ -37,6 +37,21 @@ class Utilities(commands.Cog):
     async def flip_coin(self, interaction: discord.Interaction):
         """Flips a coin!"""
         await interaction.response.send_message(random.choice(["Heads!", "Tails!"]))
+    
+    @app_commands.command(name="choose", description="Randomly chooses an option from a list.")
+    async def choose(self, interaction: discord.Interaction, options: str):
+        """Choose one random item from a list of options."""
+        # Split the options by spaces
+        choices = options.split()
+        
+        # Check if there are at least two options
+        if len(choices) == 1:
+            await interaction.response.send_message("Are you so choosy that you can't choose from a single option??")
+            return
+        
+        # Randomly choose an option
+        chosen_option = random.choice(choices)
+        await interaction.response.send_message(f"I choose **{chosen_option}!**")
 
 
 async def setup(bot: commands.Bot) -> None:
