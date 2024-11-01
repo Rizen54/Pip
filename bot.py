@@ -1,7 +1,7 @@
 import os
 import discord
 from dotenv import load_dotenv
-from discord.ext import commands
+from discord.ext import tasks, commands
 
 
 # Load environment variables from .env file
@@ -13,7 +13,8 @@ OWNER_ID = os.getenv("OWNER_ID")
 # Initialize bot with command prefix and intents
 intents = discord.Intents.default()
 intents.message_content = True  # Required for reading messages
-bot = commands.Bot(command_prefix="!", intents=intents)
+activity = discord.Activity(type=discord.ActivityType.watching, name="A Good Girl's Guide To Murder.")
+bot = commands.Bot(command_prefix="!", intents=intents, activity=activity)
 
 
 # Command to manually sync slash commands
@@ -67,6 +68,7 @@ r"""
     except Exception as e:
         print(f"Error syncing slash commands: {e}")
     """
+
 
 # Run bot
 bot.run(TOKEN)
