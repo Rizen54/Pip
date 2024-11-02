@@ -35,6 +35,27 @@ async def sync(ctx):
         await ctx.send(f"An error occurred while syncing commands: {e}")
         print(f"Error syncing commands: {e}")  # Debug statement
 
+# Reloads all cogs
+@bot.command(name="reload")
+async def reload(ctx):
+    if ctx.author.id != int(OWNER_ID):
+        await ctx.send(
+            "Nope. I only listen to my owner when it comes to serious business."
+        )
+        return
+
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+            cog_name = f"cogs.{filename[:-3]}"
+            try:
+                await bot.unload_extension(cog_name)
+                await bot.load_extension(cog_name)
+            except Exception as e:
+                await ctx.send(f"Failed to reload `{cog_name}`: {e}")
+
+    await ctx.send("All cogs reloaded successfully.")
+
+
 
 # Sync commands and confirm bot is ready
 @bot.event
@@ -52,7 +73,7 @@ r"""
     print(f"{bot.user} Yawnsss... I'm awake!")
 
     for filename in os.listdir("cogs"):  # for every cog in the cogs folder
-        if filename[-1] == "y":
+        if filename.endswith(".py"):
             # ^^ If the cog ends in "y", checking if it's a python file
             try:
                 await bot.load_extension(f"cogs.{filename[:-3]}")
