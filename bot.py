@@ -47,11 +47,11 @@ async def reload(ctx):
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
             cog_name = f"cogs.{filename[:-3]}"
+            await bot.unload_extension(cog_name)
             try:
-                await bot.unload_extension(cog_name)
                 await bot.load_extension(cog_name)
             except Exception as e:
-                await ctx.send(f"Failed to reload `{cog_name}`: {e}")
+                await ctx.send(f"Failed to load `{cog_name}`: {e}")
 
     await ctx.send("All cogs reloaded successfully.")
 
